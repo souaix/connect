@@ -1,7 +1,7 @@
 from sqlalchemy import types, create_engine
 import pyodbc
 import cx_Oracle
-
+from sqlalchemy import text
 
 def connect(srv, db):
 
@@ -14,7 +14,7 @@ def connect(srv, db):
 	elif srv == 'CIM':
 
 		engine = create_engine(
-		    'mysql+pymysql://thiler:thil1234@10.21.40.126/'+db+'?charset=utf8mb4')
+		    'mysql+pymysql://thiler:thil1234@10.21.40.126/'+db+'?charset=utf8mb4',pool_recycle=5)
 		#con = engine.connect()  # 建立連線
 
 	elif srv == 'SAP':
