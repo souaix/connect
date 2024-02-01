@@ -6,42 +6,45 @@ from sqlalchemy.pool import NullPool
 
 def connect(srv, db):
 
-	if srv == 'MES':
+    if srv == 'MES':
 
-		engine = create_engine(
-		    'mssql+pyodbc://CIMADMIN:theil4893701@10.21.150.108/'+db+'?charset=utf8mb4&driver=ODBC Driver 18 for SQL Server&TrustServerCertificate=yes')
-		#con = engine.connect()  # 建立連線
+            engine = create_engine(
+                'mssql+pyodbc://CIMADMIN:theil4893701@10.21.150.108/'+db+'?charset=utf8mb4&driver=ODBC Driver 18 for SQL Server&TrustServerCertificate=yes')
+            #con = engine.connect()  # 建立連線
 
-	elif srv == 'CIM':
+    elif srv == 'CIM':
 
-		engine = create_engine(
-		    'mysql+pymysql://thiler:thil1234@10.21.40.126/'+db+'?charset=utf8mb4',pool_recycle=5)
-		#con = engine.connect()  # 建立連線
+            engine = create_engine(
+                'mysql+pymysql://thiler:thil1234@10.21.40.126/'+db+'?charset=utf8mb4',pool_recycle=5)
+            #con = engine.connect()  # 建立連線
 
-	elif srv == 'CIM_ubuntu':
+    elif srv == 'CIM_ubuntu':
 
-			engine = create_engine(
-				'mysql+pymysql://cim:theil4893701@10.21.98.21/'+db+'?charset=utf8mb4',pool_recycle=5)
-			#con = engine.connect()  # 建立連線
+                    engine = create_engine(
+                            'mysql+pymysql://cim:theil4893701@10.21.98.21/'+db+'?charset=utf8mb4',pool_recycle=5)
+                    #con = engine.connect()  # 建立連線
 
+    elif srv == 'SAP':
 
+            if db =='SAP_Test':
 
-	elif srv == 'SAP':
+                    engine = cx_Oracle.connect("thmes","qxmk2965","10.21.1.32:1521/LTINTER",encoding="UTF-8")
 
-		if db =='SAP_Test':
+            elif db =='SAP_PRD':
 
-			engine = cx_Oracle.connect("thmes","qxmk2965","10.21.1.32:1521/LTINTER",encoding="UTF-8")
+                    engine = cx_Oracle.connect("thmes","qxmk2965","10.21.1.52:1521/LTINTER",encoding="UTF-8")
 
-		elif db =='SAP_PRD':
+    elif srv == 'RIS':
 
-                       engine = cx_Oracle.connect("thmes","qxmk2965","10.21.1.52:1521/LTINTER",encoding="UTF-8")
+        if db == 'RIS_Test':
 
+            engine = cx_Oracle.connect(
+#                "thmes", "qxmk2965", "10.21.1.32:1521/RIS", encoding="UTF-8")
+                 "mes","ltmes","10.21.1.32:1521/RIS",encoding="UTF-8")
 
+        elif db == 'RIS_PRD':
 
-#		con = create_engine(
-#		"oracle+cx_oracle://thmes:qxmk2965@10.21.1.32:1521/?service_name=LTINTER")
-	 #con = engine.connect()  # 建立連線
+            engine = cx_Oracle.connect(
+                "mes", "ltmes", "10.21.1.52:1521/RIS", encoding="UTF-8")
 
-	#con = cx_Oracle.connect('thmes/qxmk2965@10.21.1.32:1521/LTINTER',
-	#                        encoding='UTF-8', nencoding='UTF-8')  
-	return engine
+    return engine
